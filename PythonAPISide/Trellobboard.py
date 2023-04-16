@@ -1,4 +1,5 @@
 from trello import TrelloClient
+from trello.customfield import CustomField, CustomFieldText, CustomFieldCheckbox, CustomFieldNumber, CustomFieldDate, CustomFieldList
 import json
 
 steamID = "STEAM_0:0:121430886"
@@ -23,7 +24,7 @@ cards = currentBoard.get_cards('all','all')
 
 for card in cards:
     comment = json.dumps(card.comments) 
-    
+    card.customFields.
     if comment.get('SteamID') == steamID:
         print(card.name)
         print("true")
