@@ -22,22 +22,29 @@ class ProDemote:
     print(currentBoard.name) ##justTest case
     # Get all the list in the board 
     all_lists = currentBoard.open_lists() 
-    
+    df = pd.DataFrame()
+
     # Get all relevant Lists and Cards
     for currentlist in all_lists[1:]:
       for currentcard in currentlist.list_cards():
         dict = {}
+        df1 = pd.DataFrame()
         #find corresponding card for the SteamID
         if not currentcard.name.__contains__('-'):
-          
+
+          dict['Card Name']=[currentcard.name]
+          dict['List Name']=[currentlist.name] 
+
+          #Get the custom fields
           for custom_fields in currentcard.custom_fields: 
             dict[custom_fields.name]= [custom_fields.value]
           
-          list_of_key = list(dict.keys())
-          list_of_value = list(dict.values())
+          # Create a data frame with card ,list , custom field in card
+          df1 = pd.DataFrame(dict) 
+          
+          # Merge the dataframe in order to add all card's custom fields
+          df =pd.concat([df, df1], ignore_index=True, sort=False) 
 
-          print(list_of_key,list_of_value)
-          print(currentcard)
           __selectedCard__ = currentcard
         
 
