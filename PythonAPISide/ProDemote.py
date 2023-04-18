@@ -61,6 +61,16 @@ class ProDemote:
 
     return CardData
   
+  
+  ##WORK IN PROGRESS#promote or demote a user
+  def proDemoteUser(self, steamID, comment):
+    self.makePromDemComment(steamID, comment)
+
+
+  ##WORK IN PROGRESS#changeLabel(Rank)
+  def changeRankOfCard(self, newRank):
+    labelsOfCard = self.card.labels
+
 
   #Comment the approved Promote under the card of the user
   def makePromDemComment(self, steamID, comment):  #Comment has to be formated as dictunary
@@ -81,9 +91,7 @@ class ProDemote:
   
   #Forlater
   
-  #changeLabel(Rank)
-  def changeRankOfCard(self, newRank):
-    labelsOfCard = self.card.labels
+  
 
 
 
