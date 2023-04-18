@@ -3,14 +3,13 @@ import config
 
 ProDeInstance = ProDemote()
 
-steamID = "STEAM_0:0:121430886"
+steamID = "STEAM_0:0:507845320"
 
 #Eingabe von SteamID
-print(config.__ranks__)
 print("bitte die SteamID")
 userSteamID = input()       
 #Ausgabe von Name& Rang
-#print(ProDeInstance.getNameAndRankFromSteamID(userSteamID)) 
+print(ProDeInstance.getNameAndRankFromSteamID(userSteamID)) 
 #Welchen Rang soll er gesetzt werden?
 selectedRank = input()
 #Wer ändert den Rang?

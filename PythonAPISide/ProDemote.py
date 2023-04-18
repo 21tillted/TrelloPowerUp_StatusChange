@@ -3,8 +3,6 @@ from trello.customfield import CustomField, CustomFieldText, CustomFieldCheckbox
 import pandas as pd
 import config
 
-
-
 class ProDemote:
 
   client = TrelloClient(
@@ -14,69 +12,75 @@ class ProDemote:
       #token_secret='your-oauth-token-secret'
   )
 
-  #improve performanc, by just sarching one time for Card(SteamID)
-  __selectedCard__ = ''
+  #improve performance, by just sarching for the Card(SteamID) one time
+  __selectedCard__ = ""
+
 
   def getCardFromSteamID(self, steamID):
     currentBoard = self.client.get_board(config.__boardid__)
     print(currentBoard.name) ##justTest case
     # Get all the list in the board 
     all_lists = currentBoard.open_lists() 
-    df = pd.DataFrame()
-
+    
     # Get all relevant Lists and Cards
-    for currentlist in all_lists[1:]:
+    for currentlist in all_lists[1:]:     #später [1:] machen um die standartdaten zu übersprüngen
       for currentcard in currentlist.list_cards():
-        dict = {}
-        df1 = pd.DataFrame()
+        CardData = {}
+
         #find corresponding card for the SteamID
         if not currentcard.name.__contains__('-'):
 
-          dict['Card Name']=[currentcard.name]
-          dict['List Name']=[currentlist.name] 
-
           #Get the custom fields
           for custom_fields in currentcard.custom_fields: 
-            dict[custom_fields.name]= [custom_fields.value]
+            CardData[custom_fields.name]= [custom_fields.value]
           
-          # Create a data frame with card ,list , custom field in card
-          df1 = pd.DataFrame(dict) 
-          
-          # Merge the dataframe in order to add all card's custom fields
-          df =pd.concat([df, df1], ignore_index=True, sort=False) 
+          if CardData.get('SteamID')[0] == steamID:
+            __selectedCard__ = currentcard
+            
 
-          
-          __selectedCard__ = currentcard
-    print(dict)    
-  
+  #get only name and Rank for the ProDemote form
   def getNameAndRankFromSteamID(self, steamID):
     self.getCardFromSteamID(steamID)
-    card = self.__selectedCard__
-    df = pd.DataFrame()
 
-    for custom_fields in card.custom_fields: 
-        dict[custom_fields.name]= [custom_fields.value]
+    #for label in __selectedCard__.
 
-    
-        df1 = pd.DataFrame()
-        if not card.closed:
-          dict['Card Name']=[card.name]
-          dict['List Name']=[list.name] 
-          # Get the custom fields
-          for custom_fields in card.custom_fields: 
-            dict[custom_fields.name]= [custom_fields.value]
-
-          # Create a data frame with card ,list , custom field in card
-          df1 = pd.DataFrame(dict) 
-          # Merge the dataframe in order to add all card's custom fields
-          df =pd.concat([df, df1], ignore_index=True, sort=False) 
+    #return f'Name: {__selectedCard__.name}\nVom Rang: {}'
 
 
-    return 'Name: {name}\nVom Rang: {rank}'
+  #return every Data of a User
+  def getDataOfUser(self, steamID):
+    self.getCardFromSteamID(steamID)
 
+    CardData = {} #where to save the Data of the fields
+
+    for custom_fields in self.__selectedCard__.custom_fields: 
+        
+        # Get the custom fields Data
+        for custom_fields in self.__selectedCard__.custom_fields: 
+          CardData[custom_fields.name]= [custom_fields.value]
+
+    return CardData
+  
+
+  #Comment the approved Promote under the card of the user
+  def makePromDemComment(self, steamID, comment):  #Comment has to be formated as dictunary
+    self.getCardFromSteamID(steamID)
+
+    self.__selectedCard__.comment(f'Wer: {comment[0]}\nVon wem: {comment[1]}\nRang: [{comment[2]}]->[{comment[3]}]\nGrund: {comment[4]}\nDatum: {comment[5]}\nSteamID: {steamID}') ##steamID is implicit (nedded to find card)
+  
+
+  #Comment the approved positive or negative 
+  def makePoNeComment(self, steamID, comment):  #Comment has to be formated as dictunary
+    self.getCardFromSteamID(steamID)
+
+    self.__selectedCard__.comment(f'Wer: {comment[0]}\nVon wem: {comment[1]}\nGrund: {comment[2]}\n\nDatum: {comment[3]}\nSteamID: {steamID}') ##steamID is implicit (nedded to find card)
+  
+  
+  
+  
+  
   #Forlater
-  #Add comment
-  #card.comment("Dui faucibus in ornare quam viverra orci sagittis.")
+  
   #changeLabel(Rank)
   def changeRankOfCard(self, newRank):
     labelsOfCard = self.card.labels
