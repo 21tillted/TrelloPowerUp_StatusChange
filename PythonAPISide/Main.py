@@ -10,7 +10,7 @@ print(config.__ranks__)
 print("bitte die SteamID")
 userSteamID = input()       
 #Ausgabe von Name& Rang
-print(ProDeInstance.getNameAndRankFromSteamID(userSteamID)) 
+#print(ProDeInstance.getNameAndRankFromSteamID(userSteamID)) 
 #Welchen Rang soll er gesetzt werden?
 selectedRank = input()
 #Wer ändert den Rang?

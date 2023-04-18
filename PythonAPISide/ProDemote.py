@@ -45,9 +45,10 @@ class ProDemote:
           # Merge the dataframe in order to add all card's custom fields
           df =pd.concat([df, df1], ignore_index=True, sort=False) 
 
+          
           __selectedCard__ = currentcard
-        
-
+    print(dict)    
+  
   def getNameAndRankFromSteamID(self, steamID):
     self.getCardFromSteamID(steamID)
     card = self.__selectedCard__
