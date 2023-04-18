@@ -38,6 +38,7 @@ class ProDemote:
             __selectedCard__ = currentcard
             
 
+  ###WORK IN PROGRESS
   #get only name and Rank for the ProDemote form
   def getNameAndRankFromSteamID(self, steamID):
     self.getCardFromSteamID(steamID)
@@ -63,7 +64,7 @@ class ProDemote:
   
   
   ##WORK IN PROGRESS#promote or demote a user
-  def proDemoteUser(self, steamID, comment):
+  def proDemoteUser(self, steamID, comment, ranksystem):  #ranksystem is dicturenary with the ranks of the specific Unit
     self.makePromDemComment(steamID, comment)
 
 
@@ -76,7 +77,7 @@ class ProDemote:
   def makePromDemComment(self, steamID, comment):  #Comment has to be formated as dictunary
     self.getCardFromSteamID(steamID)
 
-    self.__selectedCard__.comment(f'Wer: {comment[0]}\nVon wem: {comment[1]}\nRang: [{comment[2]}]->[{comment[3]}]\nGrund: {comment[4]}\nDatum: {comment[5]}\nSteamID: {steamID}') ##steamID is implicit (nedded to find card)
+    self.__selectedCard__.comment(f'Wer: {comment[0]}\nVon wem: {comment[1]}\nRang: [{self.__selectedCard__.l}]->[{comment[3]}]\nGrund: {comment[4]}\nDatum: {comment[5]}\nSteamID: {steamID}') ##steamID is implicit (nedded to find card)
   
 
   #Comment the approved positive or negative 
@@ -84,12 +85,6 @@ class ProDemote:
     self.getCardFromSteamID(steamID)
 
     self.__selectedCard__.comment(f'Wer: {comment[0]}\nVon wem: {comment[1]}\nGrund: {comment[2]}\n\nDatum: {comment[3]}\nSteamID: {steamID}') ##steamID is implicit (nedded to find card)
-  
-  
-  
-  
-  
-  #Forlater
   
   
 
