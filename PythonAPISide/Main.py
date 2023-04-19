@@ -5,6 +5,9 @@ ProDeInstance = ProDemote()
 
 steamID = "STEAM_0:0:507845320"
 
+
+ProDeInstance.remove_label_from_card('5rCdYDfG', 'SM')
+#ProDeInstance.add_label_to_card('5rCdYDfG', 'SM')
 #Eingabe von SteamID
 print("bitte die SteamID")
 userSteamID = input()       

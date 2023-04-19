@@ -13,7 +13,7 @@ class ProDemote:
   )
 
   data = {
-    #**current_label,
+    # **current_label,
     #"idLabels": ",".join(current_label.idLabels + [new_label_ids])
   }
   
@@ -41,7 +41,7 @@ class ProDemote:
           for custom_fields in currentcard.custom_fields: 
             CardData[custom_fields.name]= [custom_fields.value]
           
-          if CardData.get('SteamID') != None and CardData.get('SteamID')[0] == steamID:
+          if CardData.get['SteamID'] != None and CardData['SteamID'] == steamID:
             __selectedCard__ = currentcard
             return
             
@@ -72,28 +72,54 @@ class ProDemote:
   
   
   ##WORK IN PROGRESS#promote or demote a user
-  def proDemoteUser(self, steamID, comment, ranksystem):  #ranksystem is dicturenary with the ranks of the specific Unit
-    self.getCardFromSteamID(steamID)
-    
-    #changelabels
+  def proDemoteUser(self, steamID, comment):  
+    targetCard = self.getCardFromSteamID(steamID)
+    ErrorMessage = self.changeLabelOfCard(targetCard, )    ###comment will be a discturnary, where we get the oldRank and new Rank from
     #sort
     self.makePromDemComment(steamID, comment)
 
+    if ErrorMessage != '':
+      return ErrorMessage
 
-  ##WORK IN PROGRESS#changeLabel(Rank)
-  def changeLabelOfCard(self, oldRank, newRank):
 
-    data = {"value": label_id}
-    requests.put("trello_api/cards/card-id/", data=data, params=querystring)
-
-  
-  def add_label_to_card(card_id, newRank):  #newRank is String to compare to the dict
-    label_id = config.__rankLabels__.get(newRank)
+  #changeLabel(Rank)
+  def changeLabelOfCard(self,card_id, oldRank, newRank):
     
-    url = f"https://api.trello.com/1/cards/{card_id}/idLabels"
-    params = {"auth":(config.__myApi_key__, config.__myApi_secret__), "value": label_id}
-    response = requests.post(url, params)
-    # preferably some cleanup and status checks
+    addingResponse = self.remove_label_from_card(card_id, oldRank) 
+    removalResponse = self.add_label_to_card(card_id, newRank)
+
+    if addingResponse != '400' or removalResponse != '400':
+      return f'adding: {addingResponse}, removing: {removalResponse}'
+    
+
+  #remove a label from a card
+  def remove_label_from_card(self, card_id, rank):                        #Rank is String to be able to compare to the dict
+    label_id = config.__rankLabels__[rank]                                #get the label refaring to the Rank from the config as string
+    url = f"https://api.trello.com/1/cards/{card_id}/idLabels/{label_id}" #API url
+    
+    query = {
+      'key': config.__myApi_key__,    
+      'token': config.__myToken__
+    }
+
+    response = requests.delete(url, params=query)
+
+    return response
+
+
+  #add a label to a card
+  def add_label_to_card(self, card_id, rank):                   #Rank is String to be able to compare to the dict
+    url = f"https://api.trello.com/1/cards/{card_id}/idLabels"  #API url
+    label_id = config.__rankLabels__[rank]                      #get LabelID for rank from dicturnary
+    
+    query = {
+      'key': config.__myApi_key__,
+      'token': config.__myToken__,
+      'value': label_id
+    }
+
+    response = requests.post(url, params=query)
+
     return response
 
 
