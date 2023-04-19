@@ -1,7 +1,7 @@
 from trello import TrelloClient
-from trello import TrelloBase
 from trello.customfield import CustomField, CustomFieldText, CustomFieldCheckbox, CustomFieldNumber, CustomFieldDate, CustomFieldList
 import config
+import requests
 
 class ProDemote:
 
@@ -11,6 +11,13 @@ class ProDemote:
       token= config.__myToken__,
       #token_secret='your-oauth-token-secret'
   )
+
+  data = {
+    #**current_label,
+    #"idLabels": ",".join(current_label.idLabels + [new_label_ids])
+  }
+  
+
 
   #improve performance, by just sarching for the Card(SteamID) one time
   __selectedCard__ = ""
@@ -34,8 +41,9 @@ class ProDemote:
           for custom_fields in currentcard.custom_fields: 
             CardData[custom_fields.name]= [custom_fields.value]
           
-          if CardData.get('SteamID')[0] == steamID:
+          if CardData.get('SteamID') != None and CardData.get('SteamID')[0] == steamID:
             __selectedCard__ = currentcard
+            return
             
 
   ###WORK IN PROGRESS
@@ -73,8 +81,20 @@ class ProDemote:
 
 
   ##WORK IN PROGRESS#changeLabel(Rank)
-  def changeLabelOfCard(self, newRank):
-    self.__selectedCard__.add
+  def changeLabelOfCard(self, oldRank, newRank):
+
+    data = {"value": label_id}
+    requests.put("trello_api/cards/card-id/", data=data, params=querystring)
+
+  
+  def add_label_to_card(card_id, newRank):  #newRank is String to compare to the dict
+    label_id = config.__rankLabels__.get(newRank)
+    
+    url = f"https://api.trello.com/1/cards/{card_id}/idLabels"
+    params = {"auth":(config.__myApi_key__, config.__myApi_secret__), "value": label_id}
+    response = requests.post(url, params)
+    # preferably some cleanup and status checks
+    return response
 
 
   #Comment the approved Promote under the card of the user

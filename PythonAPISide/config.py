@@ -12,3 +12,17 @@ __token_secret__=''
 
 __ranks__ = dict([[1,'SR'],[2,'AsO'],[3,'O'],[4,'SO'],[5,'I'],[6,'SI'],[7,'SGT'],[8,'SSGT'],[9,'LT'],[10,'SLT'],[11,'SM'],[12,'Chief']])
 
+__rankLabels__ = dict([['643faef59a02189fb77600cf','O'],['643faeef609180cd40706d49','SO'],['643faee803636b58f7512369','I'],['643faee0c96c1d57bf08194f','SI'],['643abe83d5e368f2503e48af','SGT'],['643abe83d5e368f2503e48a9','SSGT'],['643abe83d5e368f2503e48ae','LT'],['643abe83d5e368f2503e48b1','SLT'],['643abe83d5e368f2503e48a2','SM'],['643abe83d5e368f2503e48a1','Chief']])
+
+
+#LabelID
+#Chief = '643abe83d5e368f2503e48a1'
+#SM = '643abe83d5e368f2503e48a2'
+#SLT = '643abe83d5e368f2503e48b1'
+#LT = '643abe83d5e368f2503e48ae'
+#SSGT = '643abe83d5e368f2503e48a9'
+#SGT = '643abe83d5e368f2503e48af'
+#SI = '643faee0c96c1d57bf08194f'
+#I = '643faee803636b58f7512369'
+#SO = '643faeef609180cd40706d49'
+#O = '643faef59a02189fb77600cf'
