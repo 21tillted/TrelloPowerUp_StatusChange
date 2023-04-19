@@ -1,4 +1,5 @@
 from trello import TrelloClient
+from trello import card, base, label
 from trello.customfield import CustomField, CustomFieldText, CustomFieldCheckbox, CustomFieldNumber, CustomFieldDate, CustomFieldList
 import pandas as pd
 import config
@@ -65,12 +66,16 @@ class ProDemote:
   
   ##WORK IN PROGRESS#promote or demote a user
   def proDemoteUser(self, steamID, comment, ranksystem):  #ranksystem is dicturenary with the ranks of the specific Unit
+    self.getCardFromSteamID(steamID)
+    
+    #changelabels
+    #sort
     self.makePromDemComment(steamID, comment)
 
 
   ##WORK IN PROGRESS#changeLabel(Rank)
-  def changeRankOfCard(self, newRank):
-    labelsOfCard = self.card.labels
+  def changeLabelOfCard(self, newRank):
+    self.__selectedCard__.
 
 
   #Comment the approved Promote under the card of the user
