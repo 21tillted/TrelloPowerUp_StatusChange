@@ -12,17 +12,6 @@ class ProDemote:
       #token_secret='your-oauth-token-secret'
   )
 
-  data = {
-    # **current_label,
-    #"idLabels": ",".join(current_label.idLabels + [new_label_ids])
-  }
-  
-
-
-  #improve performance, by just sarching for the Card(SteamID) one time
-  __selectedCard__ = ""
-
-
   def getCardFromSteamID(self, steamID):
     currentBoard = self.client.get_board(config.__boardid__)
     print(currentBoard.name) ##justTest case
@@ -42,14 +31,14 @@ class ProDemote:
             CardData[custom_fields.name]= [custom_fields.value]
           
           if CardData.get['SteamID'] != None and CardData['SteamID'] == steamID:
-            __selectedCard__ = currentcard
-            return
+            return currentcard
+    return "Card not found"
             
 
   ###WORK IN PROGRESS
   #get only name and Rank for the ProDemote form
   def getNameAndRankFromSteamID(self, steamID):
-    self.getCardFromSteamID(steamID)
+    targetCard = self.getCardFromSteamID(steamID)
 
     #for label in __selectedCard__.
 
@@ -58,14 +47,14 @@ class ProDemote:
 
   #return every Data of a User
   def getDataOfUser(self, steamID):
-    self.getCardFromSteamID(steamID)
+    targetCard = self.getCardFromSteamID(steamID)
 
     CardData = {} #where to save the Data of the fields
 
-    for custom_fields in self.__selectedCard__.custom_fields: 
+    for custom_fields in targetCard.custom_fields: 
         
         # Get the custom fields Data
-        for custom_fields in self.__selectedCard__.custom_fields: 
+        for custom_fields in targetCard.custom_fields: 
           CardData[custom_fields.name]= [custom_fields.value]
 
     return CardData
@@ -125,16 +114,16 @@ class ProDemote:
 
   #Comment the approved Promote under the card of the user
   def makePromDemComment(self, steamID, comment):  #Comment has to be formated as dictunary
-    self.getCardFromSteamID(steamID)
+    targetCard = self.getCardFromSteamID(steamID)
 
-    self.__selectedCard__.comment(f'Wer: {comment[0]}\nVon wem: {comment[1]}\nRang: [{self.__selectedCard__.getLabel}]->[{comment[3]}]\nGrund: {comment[4]}\nDatum: {comment[5]}\nSteamID: {steamID}') ##steamID is implicit (nedded to find card)
+    targetCard.comment(f'Wer: {comment[0]}\nVon wem: {comment[1]}\nRang: [{self.__selectedCard__.getLabel}]->[{comment[3]}]\nGrund: {comment[4]}\nDatum: {comment[5]}\nSteamID: {steamID}') ##steamID is implicit (nedded to find card)
   
 
   #Comment the approved positive or negative 
   def makePoNeComment(self, steamID, comment):  #Comment has to be formated as dictunary 
-    self.getCardFromSteamID(steamID)
+    targetCard = self.getCardFromSteamID(steamID)
 
-    self.__selectedCard__.comment(f'Wer: {comment[0]}\nVon wem: {comment[1]}\nGrund: {comment[2]}\n\nDatum: {comment[3]}\nSteamID: {steamID}') ##steamID is implicit (nedded to find card)
+    targetCard.comment(f'Wer: {comment[0]}\nVon wem: {comment[1]}\nGrund: {comment[2]}\n\nDatum: {comment[3]}\nSteamID: {steamID}') ##steamID is implicit (nedded to find card)
   
   
 
