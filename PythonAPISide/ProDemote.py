@@ -1,7 +1,6 @@
 from trello import TrelloClient
-from trello import card, base, label
+from trello import TrelloBase
 from trello.customfield import CustomField, CustomFieldText, CustomFieldCheckbox, CustomFieldNumber, CustomFieldDate, CustomFieldList
-import pandas as pd
 import config
 
 class ProDemote:
@@ -75,18 +74,18 @@ class ProDemote:
 
   ##WORK IN PROGRESS#changeLabel(Rank)
   def changeLabelOfCard(self, newRank):
-    self.__selectedCard__.
+    self.__selectedCard__.add
 
 
   #Comment the approved Promote under the card of the user
   def makePromDemComment(self, steamID, comment):  #Comment has to be formated as dictunary
     self.getCardFromSteamID(steamID)
 
-    self.__selectedCard__.comment(f'Wer: {comment[0]}\nVon wem: {comment[1]}\nRang: [{self.__selectedCard__.l}]->[{comment[3]}]\nGrund: {comment[4]}\nDatum: {comment[5]}\nSteamID: {steamID}') ##steamID is implicit (nedded to find card)
+    self.__selectedCard__.comment(f'Wer: {comment[0]}\nVon wem: {comment[1]}\nRang: [{self.__selectedCard__.getLabel}]->[{comment[3]}]\nGrund: {comment[4]}\nDatum: {comment[5]}\nSteamID: {steamID}') ##steamID is implicit (nedded to find card)
   
 
   #Comment the approved positive or negative 
-  def makePoNeComment(self, steamID, comment):  #Comment has to be formated as dictunary
+  def makePoNeComment(self, steamID, comment):  #Comment has to be formated as dictunary 
     self.getCardFromSteamID(steamID)
 
     self.__selectedCard__.comment(f'Wer: {comment[0]}\nVon wem: {comment[1]}\nGrund: {comment[2]}\n\nDatum: {comment[3]}\nSteamID: {steamID}') ##steamID is implicit (nedded to find card)
