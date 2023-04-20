@@ -13,6 +13,8 @@ class ProDemote:
   )
   co = CardOperations()
 
+
+  #get  a card by steamID
   def getCardFromSteamID(self, steamID):
     currentBoard = self.client.get_board(config.__boardid__)
     print(currentBoard.name) ##justTest case
@@ -40,9 +42,7 @@ class ProDemote:
   #get only name and Rank for the ProDemote form
   def getNameAndRankFromSteamID(self, steamID):
     targetCard = self.getCardFromSteamID(steamID)
-    #for label in __selectedCard__.
-    targetCard.change_pos()
-    targetCard.change_list()
+   
     #return f'Name: {__selectedCard__.name}\nVom Rang: {}'
 
 

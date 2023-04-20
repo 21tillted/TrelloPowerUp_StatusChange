@@ -20,7 +20,7 @@ class CardOperations:
 
         for currentList in all_lists[1:]:     #später [1:] machen um die standartdaten zu übersprüngen
             for currentCard in currentList.list_cards():
-                if destinationRank in currentCard.name:
+                if currentCard.name.startswith(f'[{destinationRank}]') :
                     self.move_card(card_id=card.id, idList=currentList.id, listPos=currentCard.pos+1)
                     return
 
