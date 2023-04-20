@@ -1,7 +1,7 @@
 from trello import TrelloClient
 from trello.customfield import CustomField, CustomFieldText, CustomFieldCheckbox, CustomFieldNumber, CustomFieldDate, CustomFieldList
 import config
-import CardOperations as co
+from CardOperations import * 
 
 class ProDemote:
   
@@ -30,7 +30,7 @@ class ProDemote:
           for custom_fields in currentCard.custom_fields: 
             CardData[custom_fields.name]= [custom_fields.value]
           
-          if CardData.get('SteamID')[0] != None and CardData.get('SteamID')[0] == steamID:
+          if CardData.get('SteamID') != None and CardData.get('SteamID')[0] == steamID:
             return currentCard
     return "Card not found"
             
@@ -39,9 +39,9 @@ class ProDemote:
   #get only name and Rank for the ProDemote form
   def getNameAndRankFromSteamID(self, steamID):
     targetCard = self.getCardFromSteamID(steamID)
-
     #for label in __selectedCard__.
-
+    targetCard.change_pos()
+    targetCard.change_list()
     #return f'Name: {__selectedCard__.name}\nVom Rang: {}'
 
 
@@ -57,39 +57,23 @@ class ProDemote:
         for custom_fields in targetCard.custom_fields: 
           CardData[custom_fields.name]= [custom_fields.value]
 
+        CardData['Rank'] = [config.__rankLabels__[targetCard.labels[0]]]
     return CardData
   
   
   ##WORK IN PROGRESS#promote or demote a user
   def proDemoteUser(self, steamID, comment):  
     targetCard = self.getCardFromSteamID(steamID)
-    ErrorMessage = co.changeLabelOfCard(targetCard, )    ###comment will be a discturnary, where we get the oldRank and new Rank from
-    #addPromoteSperre
-    #sort(targetcard)
-    self.makePromDemComment(steamID, comment)
+    ErrorMessage = CardOperations.change_label_of_card(card_id=targetCard.id, oldRank=comment[2], newRank=comment[3])    ###comment will be a discturnary, where we get the oldRank and new Rank from
+    #addPromoteSperre set_custom_field(self, value, custom_field)
+    CardOperations.sortin_card(targetCard)
+    self.makePromDemComment(targetCard, comment)
 
     if ErrorMessage != '':
       return ErrorMessage
 
-
- 
-
-  ###WORK IN PROEGRESS
-  #sort the given card to the righ position
-  def sortin_card(self, card):
-    currentBoard = self.client.get_board(config.__boardid__)
-    all_lists = currentBoard.open_lists()
-    
-    for currentList in all_lists[1:]:     #später [1:] machen um die standartdaten zu übersprüngen
-      for currentCard in currentList.list_cards():
-    
-    return  
-
-
   #Comment the approved Promote under the card of the user
-  def makePromDemComment(self, steamID, comment):  #Comment has to be formated as dictunary
-    targetCard = self.getCardFromSteamID(steamID)
-
+  def makePromDemComment(self, targetCard, comment):  #Comment has to be formated as dictunary
     targetCard.comment(f'Wer: {comment[0]}\nVon wem: {comment[1]}\nRang: [{comment[2]}]->[{comment[3]}]\nGrund: {comment[4]}\nDatum: {comment[5]}\nSteamID: {steamID}') ##steamID is implicit (nedded to find card)
    
 
