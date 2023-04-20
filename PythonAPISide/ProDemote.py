@@ -11,6 +11,7 @@ class ProDemote:
       token= config.__myToken__,
       #token_secret='your-oauth-token-secret'
   )
+  co = CardOperations()
 
   def getCardFromSteamID(self, steamID):
     currentBoard = self.client.get_board(config.__boardid__)
@@ -24,7 +25,7 @@ class ProDemote:
         CardData = {}
 
         #find corresponding card for the SteamID
-        if not currentCard.name.__contains__('-'):
+        if '-' not in currentCard.name:
 
           #Get the custom fields
           for custom_fields in currentCard.custom_fields: 
@@ -64,17 +65,18 @@ class ProDemote:
   ##WORK IN PROGRESS#promote or demote a user
   def proDemoteUser(self, steamID, comment):  
     targetCard = self.getCardFromSteamID(steamID)
-    ErrorMessage = CardOperations.change_label_of_card(card_id=targetCard.id, oldRank=comment[2], newRank=comment[3])    ###comment will be a discturnary, where we get the oldRank and new Rank from
+    self.co.sortin_card(card=targetCard,destinationRank=comment[3])
+    ErrorMessage = self.co.change_label_of_card(card_id=targetCard.id, oldRank=comment[2], newRank=comment[3])    ###comment will be a dictionary, where we get the oldRank and new Rank from
     #addPromoteSperre set_custom_field(self, value, custom_field)
-    CardOperations.sortin_card(targetCard)
+    
     self.makePromDemComment(targetCard, comment)
 
     if ErrorMessage != '':
       return ErrorMessage
 
   #Comment the approved Promote under the card of the user
-  def makePromDemComment(self, targetCard, comment):  #Comment has to be formated as dictunary
-    targetCard.comment(f'Wer: {comment[0]}\nVon wem: {comment[1]}\nRang: [{comment[2]}]->[{comment[3]}]\nGrund: {comment[4]}\nDatum: {comment[5]}\nSteamID: {steamID}') ##steamID is implicit (nedded to find card)
+  def makePromDemComment(self, targetCard, comment):  #Comment has to be formated as dictionary
+    targetCard.comment(f'Wer: {comment[0]}\nVon wem: {comment[1]}\nRang: [{comment[2]}]->[{comment[3]}]\nGrund: {comment[4]}\nDatum: {comment[5]}\nSteamID: {comment[6]}') ##steamID is implicit (nedded to find card)
    
 
   #Comment the approved positive or negative 

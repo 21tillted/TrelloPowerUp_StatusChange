@@ -13,15 +13,15 @@ class CardOperations:
     )
     
     #sort the given card to the righ position
-    def sortin_card(self, card):
+    def sortin_card(self, card, destinationRank):
         currentBoard = self.client.get_board(config.__boardid__)
         all_lists = currentBoard.open_lists()
         
 
         for currentList in all_lists[1:]:     #später [1:] machen um die standartdaten zu übersprüngen
             for currentCard in currentList.list_cards():
-                if currentCard.labels.__contains__(f'{card.labels[0]}'):
-                    self.move_card(card_id=card.id, idList=currentList.id, listPos=currentCard.id+1)
+                if destinationRank in currentCard.name:
+                    self.move_card(card_id=card.id, idList=currentList.id, listPos=currentCard.pos+1)
                     return
 
 
