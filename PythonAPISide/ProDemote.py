@@ -17,7 +17,7 @@ class ProDemote:
   #get  a card by steamID
   def getCardFromSteamID(self, steamID):
     currentBoard = self.client.get_board(config.__boardid__)
-    print(currentBoard.name) ##justTest case
+
     # Get all the list in the board 
     all_lists = currentBoard.open_lists() 
     
@@ -27,7 +27,7 @@ class ProDemote:
         CardData = {}
 
         #find corresponding card for the SteamID
-        if '-' not in currentCard.name:
+        if '-' not in currentCard.name and not currentCard.name.startswith('['):
 
           #Get the custom fields
           for custom_fields in currentCard.custom_fields: 
@@ -35,6 +35,7 @@ class ProDemote:
           
           if CardData.get('SteamID') != None and CardData.get('SteamID')[0] == steamID:
             return currentCard
+          
     return "Card not found"
             
 
@@ -42,8 +43,10 @@ class ProDemote:
   #get only name and Rank for the ProDemote form
   def getNameAndRankFromSteamID(self, steamID):
     targetCard = self.getCardFromSteamID(steamID)
-   
-    #return f'Name: {__selectedCard__.name}\nVom Rang: {}'
+    name = targetCard.name
+    rank = targetCard.labels[0]
+    
+    return f'Name: {targetCard.name}\nVom Rang: {rank.name}'
 
 
   #return every Data of a User
@@ -64,15 +67,19 @@ class ProDemote:
   
   ##WORK IN PROGRESS#promote or demote a user
   def proDemoteUser(self, steamID, comment):  
+    ErrorMessage = ''
     targetCard = self.getCardFromSteamID(steamID)
-    self.co.sortin_card(card=targetCard,destinationRank=comment[3])
-    ErrorMessage = self.co.change_label_of_card(card_id=targetCard.id, oldRank=comment[2], newRank=comment[3])    ###comment will be a dictionary, where we get the oldRank and new Rank from
-    #addPromoteSperre set_custom_field(self, value, custom_field)
+    
+    ErrorMessage += self.co.sortin_card(card=targetCard,destinationRank=comment[3])           #sort the card in the right place on board
+    ErrorMessage += self.co.change_label_of_card(card_id=targetCard.id, oldRank= comment[2], newRank=comment[3])    ###comment will be a dictionary, where we get the oldRank and new Rank from
+    #self.co.edit_Promote_Sperre(card=targetCard, newRank=comment[3])
     
     self.makePromDemComment(targetCard, comment)
 
     if ErrorMessage != '':
       return ErrorMessage
+    else:
+      return 'done'
 
   #Comment the approved Promote under the card of the user
   def makePromDemComment(self, targetCard, comment):  #Comment has to be formated as dictionary

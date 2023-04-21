@@ -10,7 +10,7 @@ class CardOperations:
       api_secret= config.__myApi_secret__,
       token= config.__myToken__,
       #token_secret='your-oauth-token-secret'
-    )
+    ) 
     
     #sort the given card to the righ position
     def sortin_card(self, card, destinationRank):
@@ -21,8 +21,12 @@ class CardOperations:
         for currentList in all_lists[1:]:     #später [1:] machen um die standartdaten zu übersprüngen
             for currentCard in currentList.list_cards():
                 if currentCard.name.startswith(f'[{destinationRank}]'):
-                    self.move_card(card_id=card.id, idList=currentList.id, listPos=currentCard.pos+1)
-                    return
+                    responsecode = self.move_card(card_id=card.id, idList=currentList.id, listPos=currentCard.pos+1)
+                    if responsecode != 200:
+                        response = f'{responsecode}\n'
+                        return response
+                    else:
+                        return ''
 
 
     #move a card on board
@@ -57,16 +61,18 @@ class CardOperations:
 
         response = requests.put(url,headers=headers,params=query)
 
-        return response
+        return response.status_code
 
 
     #exchange one label for another label(Rank)
     def change_label_of_card(self,card_id, oldRank, newRank):
-        addingResponse = self.remove_label_from_card(card_id, oldRank) 
-        removalResponse = self.add_label_to_card(card_id, newRank)
+        removalResponse = self.remove_label_from_card(card_id, oldRank) 
+        addingResponse = self.add_label_to_card(card_id, newRank)
 
-        if addingResponse != '400' or removalResponse != '400':
+        if addingResponse != 200 or removalResponse != 200:
             return f'adding: {addingResponse}, removing: {removalResponse}'
+        else:
+            return ''
         
 
     #remove a label from a card
@@ -81,7 +87,7 @@ class CardOperations:
 
         response = requests.delete(url, params=query)
 
-        return response
+        return response.status_code
 
 
     #add a label to a card
@@ -97,4 +103,19 @@ class CardOperations:
 
         response = requests.post(url, params=query)
 
-        return response  
+        return response.status_code  
+    
+
+    #edit custom field
+    def edit_Promote_Sperre(self, card, newRank):
+        customfield = card.get_custom_field_by_name('Promote Sperre bis:')
+        if config.__ranks__[f'{newRank}'] < config.__ranks__['SGT']:
+            #promotesperre +2 Tage
+            return
+        elif config.__ranks__[f'{newRank}'] < config.__ranks__['SLT']:
+            return
+        else: 
+            return#promotesperre +14Tage
+        
+        
+        #card.set_custom_field(self, value, customfield)
