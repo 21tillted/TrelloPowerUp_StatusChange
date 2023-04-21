@@ -110,6 +110,7 @@ class CardOperations:
     #edit custom field
     def edit_Promote_Sperre(self, card, newRank):
         customfield = card.get_custom_field_by_name('Promote Sperre bis:')
+        
         if config.__ranks__[f'{newRank}'] < config.__ranks__['SGT']:
             #promotesperre +2 Tage
             card.set_custom_field(self, date.today, customfield)
