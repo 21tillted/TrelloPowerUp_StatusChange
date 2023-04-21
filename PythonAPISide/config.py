@@ -12,18 +12,18 @@ __token_secret__=''
 
 #Ranks coresponding to a number to give ability to sort them
 __ranks__ = {
-    1:'SR',
-    2:'AsO',
-    3:'O',
-    4:'SO',
-    5:'I',
-    6:'SI',
-    7:'SGT',
-    8:'SSGT',
-    9:'LT',
-    10:'SLT',
-    11:'SM',
-    12:'Chief'
+    'SR': 1,
+    'AsO': 2,
+    'O': 3,
+    'SO': 4,
+    'I': 5,
+    'SI': 6,
+    'SGT': 7,
+    'SSGT': 8,
+    'LT': 9,
+    'SLT': 10,
+    'SM': 11,
+    'Chief': 12
 }
 
 #LabelIDs coresponding to their rank

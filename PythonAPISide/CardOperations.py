@@ -2,6 +2,7 @@ import config
 import requests
 from trello import TrelloClient
 from ProDemote import *
+from datetime import date
 
 class CardOperations:
 
@@ -111,11 +112,17 @@ class CardOperations:
         customfield = card.get_custom_field_by_name('Promote Sperre bis:')
         if config.__ranks__[f'{newRank}'] < config.__ranks__['SGT']:
             #promotesperre +2 Tage
+            card.set_custom_field(self, date.today, customfield)
+        
             return
         elif config.__ranks__[f'{newRank}'] < config.__ranks__['SLT']:
+            #promotesperre +7 Tage
+            card.set_custom_field(self, date.today+7, customfield)
             return
         else: 
-            return#promotesperre +14Tage
+            #promotesperre +14Tage
+            card.set_custom_field(self, date.today+14, customfield)
+            return
         
-        
-        #card.set_custom_field(self, value, customfield)
+
+        card.set_custom_field(self, value, customfield)
