@@ -3,6 +3,7 @@ import requests
 from trello import TrelloClient
 from ProDemote import *
 from datetime import date
+import json
 
 class CardOperations:
 
@@ -110,7 +111,27 @@ class CardOperations:
     #edit custom field
     def edit_Promote_Sperre(self, card, newRank):
         customfield = card.get_custom_field_by_name('Promote Sperre bis:')
-        
+
+        url = f"https://api.trello.com/1/cards/{card.id}/customField/{customfield.id}/item"
+
+        headers = {
+        "Content-Type": "application/json"
+        }
+
+        query = {
+        'key': f'{config.__myApi_key__}',
+        'token': f'{config.__myToken__}'
+        }
+
+        payload = json.dumps( {
+        "value": {
+            "date": "2018-03-13T16:00:00.000Z",
+            }
+        } )
+
+
+        response = requests.put(url,data=payload,headers=headers,params=query)  
+
         if config.__ranks__[f'{newRank}'] < config.__ranks__['SGT']:
             #promotesperre +2 Tage
             card.set_custom_field(self, date.today, customfield)
