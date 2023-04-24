@@ -17,9 +17,22 @@ Promote ={
     6: steamID,
 }
 
-tcard = ProDeInstance.getCardFromSteamID(steamID="STEAM_0:0:121430886")
-listID = tcard.get_list().id
-operations.new_card(userSteamID=steamID,name='Arno',listID=listID,)
+client = TrelloClient(
+      api_key= config.__myApi_key__,
+      api_secret= config.__myApi_secret__,
+      token= config.__myToken__,
+      #token_secret='your-oauth-token-secret'
+  )
+
+currentBoard = client.get_board(config.__boardid__)
+
+for label in currentBoard.get_labels():
+    print(f'Labelname: {label.name} |  {label.id}\n')
+
+####
+#tcard = ProDeInstance.getCardFromSteamID(steamID="STEAM_0:0:121430886")
+#listID = tcard.get_list().id
+#operations.new_card(userSteamID=steamID,name='Arno',listID=listID,)
 #ProDeInstance.remove_label_from_card('5rCdYDfG', 'SM')
 #card = ProDeInstance.getCardFromSteamID('STEAM_0:0:507845320')
 #operations.sortin_card(card=card, destinationRank='SGT')
