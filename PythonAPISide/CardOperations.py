@@ -132,12 +132,12 @@ class CardOperations:
 
         response = requests.put(url,data=payload,headers=headers,params=query)  
 
-        if config.__ranks__[f'{newRank}'] < config.__ranks__['SGT']:
+        if config.__ranks__.index(f'{newRank}') < config.__ranks__.index('SGT'):
             #promotesperre +2 Tage
             card.set_custom_field(self, date.today, customfield)
         
             return
-        elif config.__ranks__[f'{newRank}'] < config.__ranks__['SLT']:
+        elif config.__ranks__.index(f'{newRank}') < config.__ranks__.index('SLT'):
             #promotesperre +7 Tage
             card.set_custom_field(self, date.today+7, customfield)
             return

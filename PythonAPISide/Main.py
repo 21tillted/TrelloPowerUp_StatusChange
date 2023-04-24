@@ -8,7 +8,7 @@ operations = CardOperations()
 steamID = "STEAM_0:0:121430886"
 
 Promote ={
-    0: 'Wer Isarc',
+    0: 'Olaf Isarc', 
     1: 'Wangoch',
     2: 'SM',
     3: 'SGT',

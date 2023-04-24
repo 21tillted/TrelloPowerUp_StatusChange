@@ -11,20 +11,20 @@ __myToken__='ATTAedd540d14edadf2f5eac6bb4570dec3fdb49e968f7511c152bf7f816838e0b6
 __token_secret__=''
 
 #Ranks coresponding to a number to give ability to sort them
-__ranks__ = {
-    'SR': 1,
-    'AsO': 2,
-    'O': 3,
-    'SO': 4,
-    'I': 5,
-    'SI': 6,
-    'SGT': 7,
-    'SSGT': 8,
-    'LT': 9,
-    'SLT': 10,
-    'SM': 11,
-    'Chief': 12
-}
+__ranks__ = [
+    'SR',
+    'AsO',
+    'O',
+    'SO',
+    'I',
+    'SI',
+    'SGT',
+    'SSGT',
+    'LT',
+    'SLT',
+    'SM',
+    'Chief'
+]
 
 #LabelIDs coresponding to their rank
 __rankLabels__ = {
