@@ -1,6 +1,7 @@
 import config
 import requests
 from trello import TrelloClient
+from trello import List, Card
 from ProDemote import *
 from datetime import date
 import json
@@ -147,4 +148,24 @@ class CardOperations:
             return
         
 
-        card.set_custom_field(self, value, customfield)
+        #card.set_custom_field(self, value, customfield)
+
+    def new_card(self, userSteamID, listID, name):
+        url = "https://api.trello.com/1/cards"
+        ID = userSteamID
+        headers = {
+        "Accept": "application/json"
+        }
+
+        query = {
+        'idList': f'{listID}',
+        'key': f'{config.__myApi_key__}',
+        'token': f'{config.__myToken__}',
+        'name': f'{name}'
+        }
+
+        response = requests.put(
+        url,
+        headers=headers,
+        params=query
+        )

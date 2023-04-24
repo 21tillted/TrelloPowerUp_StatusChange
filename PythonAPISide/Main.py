@@ -17,7 +17,9 @@ Promote ={
     6: steamID,
 }
 
-
+tcard = ProDeInstance.getCardFromSteamID(steamID="STEAM_0:0:121430886")
+listID = tcard.get_list().id
+operations.new_card(userSteamID=steamID,name='Arno',listID=listID,)
 #ProDeInstance.remove_label_from_card('5rCdYDfG', 'SM')
 #card = ProDeInstance.getCardFromSteamID('STEAM_0:0:507845320')
 #operations.sortin_card(card=card, destinationRank='SGT')
