@@ -1,6 +1,6 @@
-__boardid__ = 'fejL90Kx'
-#v2        
-#Testborad '8hSBNmno'
+__boardid__ = '8hSBNmno'
+#v2 'fejL90Kx'
+#Testborad 
 
 __myApi_key__='f9274211f281c4ceba5ce109481d25c5'
 __myApi_secret__='4b84310cca4ec4fb2d8138c65811dcfc04fdaaa3d3c44b6187820dc37fc38c5f'

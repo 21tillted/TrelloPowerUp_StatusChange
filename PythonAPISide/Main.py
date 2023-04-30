@@ -1,6 +1,7 @@
 from ProDemote import ProDemote
 from CardOperations import *
 from datetime import date
+import json
 
 ProDeInstance = ProDemote()
 operations = CardOperations()
@@ -25,9 +26,17 @@ client = TrelloClient(
   )
 
 currentBoard = client.get_board(config.__boardid__)
+for card in currentBoard.get_cards():
+    cardtest = card.plugin_data
+    cardDist = json.loads(cardtest[0]['value'])
+    dataencode = cardDist['FD'].encode('utf-8')
+    dataencode.decode('ascii')
+    
+    
+    
 
-for label in currentBoard.get_labels():
-    print(f'Labelname: {label.name} |  {label.id}\n')
+# for label in currentBoard.get_labels():
+#     print(f'Labelname: {label.name} |  {label.id}\n')
 
 ####
 #tcard = ProDeInstance.getCardFromSteamID(steamID="STEAM_0:0:121430886")
