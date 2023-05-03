@@ -1,7 +1,10 @@
 from trello import TrelloClient
 from trello.customfield import CustomField, CustomFieldText, CustomFieldCheckbox, CustomFieldNumber, CustomFieldDate, CustomFieldList
 import config
-from CardOperations import * 
+import CardOperations  as co
+import js2py
+import json
+
 
 class ProDemote:
   
@@ -11,8 +14,6 @@ class ProDemote:
       token= config.__myToken__,
       #token_secret='your-oauth-token-secret'
   )
-  co = CardOperations()
-
 
   #get  a card by steamID
   def getCardFromSteamID(self, steamID):
@@ -21,20 +22,53 @@ class ProDemote:
     # Get all the list in the board 
     all_lists = currentBoard.open_lists() 
     
-    # Get all relevant Lists and Cards
+
+    js = None
+
+    with open('PythonAPISide\AmazingFieldsCrack.js') as fields:
+      js = fields.read()
+
+    js_context = js2py.eval_js(js)
+
+    
+    cardDist = json.loads(cardtest[0]['value'])
+    cardDist['FD']
+    
+    #Get all relevant Lists and Cards
     for currentList in all_lists[1:]:     #später [1:] machen um die standartdaten zu übersprüngen
       for currentCard in currentList.list_cards():
         CardData = {}
+
+        cardDist = json.loads(cardtest[0]['value'])
+        js_context cardDist['FD']
 
         #find corresponding card for the SteamID
         if '-' not in currentCard.name and not currentCard.name.startswith('['):
 
           #Get the custom fields
+          currentCard.pl
           for custom_fields in currentCard.custom_fields: 
             CardData[custom_fields.name]= [custom_fields.value]
           
           if CardData.get('SteamID') != None and CardData.get('SteamID')[0] == steamID:
             return currentCard
+    
+
+
+    # # Get all relevant Lists and Cards
+    # for currentList in all_lists[1:]:     #später [1:] machen um die standartdaten zu übersprüngen
+    #   for currentCard in currentList.list_cards():
+    #     CardData = {}
+
+    #     #find corresponding card for the SteamID
+    #     if '-' not in currentCard.name and not currentCard.name.startswith('['):
+
+    #       #Get the custom fields
+    #       for custom_fields in currentCard.custom_fields: 
+    #         CardData[custom_fields.name]= [custom_fields.value]
+          
+    #       if CardData.get('SteamID') != None and CardData.get('SteamID')[0] == steamID:
+    #         return currentCard
           
     return "Card not found"
             

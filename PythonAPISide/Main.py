@@ -29,8 +29,7 @@ currentBoard = client.get_board(config.__boardid__)
 for card in currentBoard.get_cards():
     cardtest = card.plugin_data
     cardDist = json.loads(cardtest[0]['value'])
-    dataencode = cardDist['FD'].encode('utf-8')
-    dataencode.decode('ascii')
+    cardDist['FD']
     
     
     
